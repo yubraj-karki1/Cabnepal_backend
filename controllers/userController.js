@@ -4,10 +4,10 @@ const bcrypt = require('bcrypt');
 
 // Register a new user
 const registerUser = async (req, res) => {
-    const { username, password } = req.body;
+    const { username, password, email } = req.body;
 
     // Validate input
-    if (!username || !password) {
+    if (!username || !password|| !email) {
         return res.status(400).json({ error: 'Username and password are required' });
     }
 
@@ -23,7 +23,7 @@ const registerUser = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, saltRounds);
 
         // Create the user
-        const newUser = await User.create({ username, password: hashedPassword });
+        const newUser = await User.create({ username, password: hashedPassword, email });
 
         res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
@@ -72,5 +72,17 @@ const loginUser = async (req, res) => {
         res.status(500).json({ error: 'Failed to login user' });
     }
 };
+
+// const getUser = async(req, res)=>{
+
+//     try{
+//         const tests = await User.findAll();
+//         res.status(200).json(tests);
+
+//     }
+//     catch(error){
+//         res.status(500).json({error: "Failed to Load"})
+//     }
+// };
 
 module.exports={loginUser,registerUser};

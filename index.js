@@ -3,7 +3,8 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const sequelize = require('./database/db');
-const userRoute = require('./routes/userRoute')
+const userRoute = require('./Routes/userRoute');
+
 
 //Creating a Server
 const app = express();
@@ -22,7 +23,8 @@ app.get('/login',(req, res)=>{
 })
 
 
-app.use('/users', userRoute);
+app.use('/user',userRoute);
+
 
 
 //Running on PORT

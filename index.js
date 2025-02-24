@@ -23,7 +23,7 @@ app.get('/login',(req, res)=>{
 })
 
 
-app.use('/user',userRoute);
+app.use('/user',userRoute); 
 
 
 

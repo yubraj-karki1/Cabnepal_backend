@@ -1,21 +1,27 @@
-const User = require('../model/User')
+const User = require('../model/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const { Op } = require('sequelize'); // Import Op from Sequelize
 
 // Register a new user
 const registerUser = async (req, res) => {
     const { username, password, email } = req.body;
 
     // Validate input
-    if (!username || !password|| !email) {
-        return res.status(400).json({ error: 'Username and password are required' });
+    if (!username || !password || !email) {
+        return res.status(400).json({ error: "Username, email, and password are required" });
     }
 
     try {
-        // Check if the username already exists
-        const existingUser = await User.findOne({ where: { username } });
+        // Check if the username or email already exists
+        const existingUser = await User.findOne({ 
+            where: { 
+                [Op.or]: [{ username }, { email }] // Ensure unique username and email
+            }
+        });
+
         if (existingUser) {
-            return res.status(400).json({ error: 'Username already exists' });
+            return res.status(400).json({ error: "Username or email already exists" });
         }
 
         // Hash the password
@@ -25,10 +31,10 @@ const registerUser = async (req, res) => {
         // Create the user
         const newUser = await User.create({ username, password: hashedPassword, email });
 
-        res.status(201).json({ message: 'User registered successfully' });
+        res.status(201).json({ message: "User registered successfully", userId: newUser.id });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Failed to register user' });
+        console.error("Error during user registration:", error);
+        res.status(500).json({ error: "Failed to register user" });
     }
 };
 
@@ -131,4 +137,4 @@ const deleteUser = async(req, res)=>{
     }
 }
 
-module.exports={loginUser,registerUser, getUser, createUser,updateUser,deleteUser};
+module.exports = { loginUser, registerUser, getUser, createUser, updateUser, deleteUser };

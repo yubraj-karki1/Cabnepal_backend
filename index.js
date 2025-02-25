@@ -4,6 +4,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const sequelize = require('./database/db');
 const userRoute = require('./Routes/userRoute');
+const bookingRoute = require('./Routes/bookingRoute');
 
 //Creating a Server
 const app = express();
@@ -39,6 +40,7 @@ app.get('/login',(req, res)=>{
 })
 
 app.use('/user',userRoute); 
+app.use('/booking', bookingRoute);
 
 //Running on PORT
 app.listen(PORT, ()=>{

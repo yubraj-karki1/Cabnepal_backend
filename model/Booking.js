@@ -23,7 +23,7 @@ const Booking = sequelize.define('Booking', {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    dropTime: {
+    Location: {
         type: DataTypes.STRING,
         allowNull: false,
     },

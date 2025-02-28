@@ -11,7 +11,10 @@ const sequelize = new Sequelize('test_db', 'postgres', '@Yub8161',{
 async function testConnection() {
     try{
         await sequelize.authenticate();
-        console.log('DB connection successful............................')
+        console.log('DB connection successful............................');
+        
+        await sequelize.sync({ alter: true }); 
+        console.log('✅ Database synced');
     }
     catch(error){
         console.error('Unable to connect to the database...............', error)

@@ -2,10 +2,10 @@ const Booking = require('../model/Booking');
 
 // Create a new booking
 const createBooking = async (req, res) => {
-    const { name, email, people, pickUpTime, dropTime, phoneNumber } = req.body;
+    const { name, email, people, pickUpTime, Location, phoneNumber } = req.body;
 
     try {
-        const newBooking = await Booking.create({ name, email, people, pickUpTime, dropTime, phoneNumber });
+        const newBooking = await Booking.create({ name, email, people, pickUpTime, Location, phoneNumber });
         res.status(201).json({ message: "Booking created successfully", bookingId: newBooking.id });
     } catch (error) {
         console.error("Error creating booking:", error);
